@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ElderCare 360</title>
+  <style>
+    :root{
+      --teal-900:#1b4f52;
+      --teal-800:#205d60;
+      --teal-700:#2a6d70;
+      --teal-600:#3a8f91;
+      --teal-500:#4db2b5;
+      --sky-100:#eaf7ff;
+      --sky-200:#d9f1ff;
+      --sky-500:#63a9e5;
+      --cream:#f8f4ec;
+      --card:#ffffff;
+      --bg:#f3f0ea;
+      --text:#24313d;
+      --muted:#5f6d7a;
+      --line:#e9edf2;
+      --green:#3cb97d;
+      --green-soft:#eafaf2;
+      --coral:#e57c68;
+      --coral-soft:#fff0ec;
+      --amber:#d8a44d;
+      --amber-soft:#fff4dd;
+      --shadow:0 14px 30px rgba(15,38,42,0.10);
+      --radius:22px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    a{text-decoration:none;color:inherit}
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    .hidden{display:none !important}
+
+    .container{max-width:1200px;margin:0 auto;padding:0 18px}
+
+    .topbar{
+      background: var(--teal-900);
+      color:#fff;
+      padding:18px 0 14px;
+      position:sticky;top:0;z-index:30;
+      box-shadow:0 8px 20px rgba(6,26,28,.12);
+    }
+    .topbar-inner{
+      max-width:1200px;margin:0 auto;padding:0 18px;
+      display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;
+    }
+    .brand-mark{
+      width:44px;height:44px;border-radius:14px;
+      background:rgba(255,255,255,.12);display:grid;place-items:center;
+      font-size:24px;
+      border:1px solid rgba(255,255,255,.14);
+    }
+    .brand-text small{
+      display:block;
+      letter-spacing:.18em;text-transform:uppercase;font-weight:700;font-size:10px;color:#d9f5f2;
+    }
+    .brand-text strong{
+      display:block;font-size:20px;font-weight:800;line-height:1.2;
+    }
+    .role-picker{
+      display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+    }
+    .role-pill{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.18);
+      color:#e7fafe;
+      padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700;
+    }
+    select.select-mini{
+      background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.14);
+      border-radius:12px;padding:9px 12px;font-size:12px;outline:none;
+    }
+    .nav-tabs{
+      background:rgba(255,255,255,.06);border-top:1px solid rgba(255,255,255,.08);
+      padding:12px 0 0;
+    }
+    .nav-tabs .container{
+      display:flex;flex-wrap:wrap;gap:10px;padding-bottom:8px;
+    }
+    .nav-tab{
+      border:none;background:transparent;color:#dff8fd;padding:10px 14px;border-radius:999px;
+      font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:8px;
+      opacity:.88;
+    }
+    .nav-tab.active{
+      background:#fff;color:var(--teal-800);box-shadow:var(--shadow);
+    }
+
+    .hero{
+      background:linear-gradient(135deg,#f3f7f6 0%,#fdfaf5 100%);
+      padding:40px 0 30px;
+    }
+    .hero-shell{
+      display:grid;grid-template-columns:1.2fr .8fr;gap:26px;align-items:center;
+      background:#fff;border:1px solid var(--line);border-radius:34px;overflow:hidden;box-shadow:var(--shadow);
+    }
+    .hero-copy{padding:34px 30px}
+    .chip{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:9px 14px;border-radius:999px;background:var(--teal-900);color:#fff;
+      font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    }
+    h1{
+      margin:18px 0 12px;font-size:clamp(2.4rem,5vw,5rem);line-height:1.02;letter-spacing:-.06em;
+      color:#1d2d38;
+    }
+    .subtitle{
+      color:var(--muted);font-size:1.1rem;line-height:1.7;max-width:620px;
+    }
+    .cta-row{
+      display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:26px;
+    }
+    .btn{
+      border:none;border-radius:16px;padding:14px 18px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.2s ease;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{
+      background:var(--teal-800);color:#fff;box-shadow:0 10px 22px rgba(31,93,96,.24);
+    }
+    .btn-secondary{
+      background:#f1f4f7;border:1px solid var(--line);color:var(--text);
+    }
+    .btn-alert{
+      background:var(--coral);color:#fff;
+    }
+    .mini-note{
+      display:flex;gap:8px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:14px;margin-top:22px;
+    }
+    .mini-note .dot{
+      width:9px;height:9px;border-radius:50%;background:var(--green);
+    }
+
+    .hero-card-wrap{
+      background:linear-gradient(135deg,#effaf8,#eff3ff 55%,#fffaf5);
+      padding:22px 20px 26px 20px;border-left:1px solid var(--line);
+      min-height:100%;
+    }
+    .hero-card{
+      background:#fff;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .mini-header{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      margin-bottom:16px;
+    }
+    .mini-header .left{
+      display:flex;align-items:center;gap:12px;
+    }
+    .tiny-icon{
+      width:42px;height:42px;border-radius:15px;background:var(--teal-900);color:#fff;display:grid;place-items:center;
+      font-size:20px;font-weight:700;
+    }
+    .badge-good{
+      background:var(--green-soft);color:var(--green);padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800;
+    }
+    .summary-stack{
+      display:grid;gap:12px;margin-top:12px;
+    }
+    .summary-row{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      background:#f7f9fb;border:1px solid var(--line);border-radius:18px;padding:12px 14px;
+    }
+    .summary-meta{display:flex;align-items:center;gap:12px;}
+    .summary-meta .icon{
+      width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:#fff;border:1px solid var(--line);
+      font-size:18px;
+    }
+    .summary-meta .text strong{
+      display:block;font-size:14px;
+    }
+    .summary-meta .text span{
+      font-size:12px;color:var(--muted);
+    }
+
+    .feature-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px;
+    }
+    .feature-card{
+      background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow);
+    }
+    .feature-icon{
+      width:42px;height:42px;border-radius:14px;display:grid;place-items:center;margin-bottom:12px;
+      font-size:22px;
+    }
+    .teal{background:var(--teal-900);color:#fff}
+    .sky{background:var(--sky-100);color:var(--teal-800)}
+    .coral{background:var(--coral-soft);color:var(--coral)}
+    .feature-card h3{margin:0 0 8px;font-size:24px}
+    .feature-card p{margin:0;color:var(--muted);line-height:1.7}
+
+    .role-section{
+      margin-top:28px;background:var(--teal-900);color:#fff;border-radius:32px;padding:28px;
+      box-shadow:var(--shadow);
+    }
+    .role-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;
+    }
+    .role-option{
+      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:18px;padding:18px;
+      color:#fff;text-align:left;cursor:pointer;transition:.2s ease;
+    }
+    .role-option.active{background:#fff;color:var(--teal-900)}
+    .role-option h4{margin:0 0 8px;font-size:18px}
+    .role-option p{margin:0;line-height:1.5;font-size:13px;opacity:.85}
+    .role-option.active p{opacity:1;color:var(--teal-800)}
+
+    .main{
+      max-width:1200px;margin:0 auto;padding:20px 18px 60px;
+    }
+    .top-summary{
+      background:#fff;border:1px solid var(--line);border-radius:28px;padding:20px 20px 12px;
+      display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;box-shadow:var(--shadow);
+      margin-bottom:22px;
+    }
+    .welcome h2{margin:0 0 4px;font-size:clamp(1.8rem,3vw,2.4rem)}
+    .welcome p{margin:0;color:var(--muted)}
+    .dash-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .small-btn{
+      border:none;border-radius:12px;padding:11px 14px;font-weight:800;
+    }
+    .small-btn.outline{
+      background:#f2f5f8;border:1px solid var(--line);color:var(--text)
+    }
+    .small-btn.alert{
+      background:var(--coral);color:#fff;
+    }
+    .mode-switch{
+      background:var(--sky-100);color:var(--teal-800);padding:10px 12px;border-radius:12px;font-weight:700;border:none;
+    }
+
+    .content-grid{
+      display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:20px;
+    }
+    .panel{
+      background:#fff;border:1px solid var(--line);border-radius:28px;padding:20px;box-shadow:var(--shadow);
+    }
+    .panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:14px}
+    .eyebrow{
+      letter-spacing:.18em;text-transform:uppercase;font-size:11px;font-weight:800;color:var(--teal-700)
+    }
+    .panel h3{margin:0;font-size:28px}
+    .tag{
+      border-radius:999px;padding:6px 10px;background:var(--green-soft);color:var(--green);
+      font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    }
+    .task-list{display:grid;gap:12px;margin-top:8px}
+    .task-item{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      border:1px solid var(--line);border-radius:18px;padding:12px 14px;background:#fafbfd;
+    }
+    .task-main{display:flex;align-items:center;gap:12px;flex:1}
+    .check{
+      width:22px;height:22px;border-radius:8px;border:2px solid var(--teal-600);display:grid;place-items:center;
+      background:#fff;cursor:pointer;
+    }
+    .task-item.done .task-title{color:#99a3b1;text-decoration:line-through}
+    .task-item.done .check{background:var(--green);border-color:var(--green);color:#fff}
+    .task-title{font-weight:700}
+    .task-meta{font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:4px}
+    .mini-close{
+      border:none;background:transparent;color:#8a98a7;font-size:18px;padding:2px 8px;border-radius:10px;
+    }
+    .mini-close:hover{background:#fff1f2;color:#d96d75}
+
+    .quick-add{
+      margin-top:18px;
+      border-top:1px solid var(--line);padding-top:18px;
+    }
+    .field-row{display:grid;grid-template-columns:1fr 110px 120px;gap:8px}
+    .input, select, textarea{
+      width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;outline:none;color:var(--text);
+    }
+    .input:focus, select:focus, textarea:focus{
+      border-color:var(--teal-600);box-shadow:0 0 0 3px rgba(58,143,145,.12);
+    }
+
+    .metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+    .metric{
+      background:#f7f9fb;border:1px solid var(--line);border-radius:18px;padding:14px 12px;text-align:center;
+    }
+    .metric strong{display:block;font-size:22px}
+    .metric span{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+    .alert-box{
+      background:var(--amber-soft);border:1px solid #f2dcab;border-radius:18px;padding:16px;margin-top:14px;
+    }
+    .alert-box h4{margin:0 0 6px;font-size:18px;color:#815b1f}
+    .alert-box p{margin:0;color:#815b1f;line-height:1.6}
+    .chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .chip-btn{
+      background:#fff;border:1px solid #f0d494;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:700;color:#7a5a1e;
+    }
+
+    .med-list{
+      display:grid;gap:12px;margin-top:12px;
+    }
+    .med-item{
+      border:1px solid var(--line);border-radius:18px;padding:14px;background:#fafbfd;
+    }
+    .med-top{
+      display:flex;justify-content:space-between;align-items:flex-start;gap:10px;
+    }
+    .med-name{font-size:18px;font-weight:800}
+    .med-meta{color:var(--muted);font-size:13px;margin-top:4px}
+    .status{
+      display:inline-block;padding:6px 8px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+      background:#f3f5f7;color:#5f6d7a;
+    }
+    .status.taken{background:var(--green-soft);color:var(--green)}
+    .status.overdue{background:#ffe9e5;color:#bc5c4f}
+    .status.pending{background:#fff3d2;color:#8b6a1a}
+    .med-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+    .mini-action{
+      border:none;border-radius:10px;padding:7px 10px;font-size:11px;font-weight:800;
+    }
+    .mini-action.confirm{background:var(--green-soft);color:var(--green)}
+    .mini-action.delete{background:#ffeae7;color:#c15d4b}
+
+    .section-title{
+      font-size:28px;margin:0 0 10px
+    }
+
+    .timeline,.list-stack,.memory-grid,.garden-grid,.care-grid,.mood-list,.privacy-grid{
+      display:grid;gap:14px;margin-top:12px;
+    }
+    .timeline .row{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:18px;background:#fafbfd;
+    }
+    .time-label{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+    .row .left{display:flex;align-items:center;gap:10px}
+
+    .memory-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .memory-card{
+      background:linear-gradient(135deg,#eff9ff,#ebf7f6);border:1px solid var(--line);border-radius:22px;padding:16px;
+      min-height:200px;display:flex;flex-direction:column;justify-content:space-between;
+    }
+    .memory-badge{
+      display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+      background:rgba(255,255,255,.8);padding:6px 8px;border-radius:999px;color:var(--teal-800)
+    }
+    .memory-title{font-size:20px;font-weight:800;margin:10px 0 8px}
+    .memory-body{color:var(--muted);line-height:1.7}
+    .memory-date{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:12px}
+
+    .garden-grid{
+      grid-template-columns:repeat(2,minmax(0,1fr));margin-top:18px;
+    }
+    .garden-item{
+      border:1px solid var(--line);border-radius:18px;padding:14px;background:#fafbfd;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    }
+    .garden-item.done{
+      background:var(--green-soft);border-color:#c8efd9;
+    }
+    .garden-icon{font-size:28px}
+    .garden-name{font-weight:700}
+    .garden-state{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+    .garden-item.done .garden-state{color:var(--green)}
+
+    .care-grid,.privacy-grid{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    .care-item,.privacy-item{
+      background:#fafbfd;border:1px solid var(--line);border-radius:18px;padding:16px;
+    }
+    .care-item h4,.privacy-item h4{margin:0 0 8px;font-size:20px}
+    .care-item p,.privacy-item p{margin:0;color:var(--muted);line-height:1.7}
+
+    .mood-row{
+      display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;
+    }
+    .mood-chip{
+      border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:#fff;color:var(--text);font-size:12px;font-weight:700;
+    }
+    .mood-chip.active{
+      background:var(--teal-900);color:#fff;border-color:var(--teal-900);
+    }
+
+    .chart-box{
+      background:linear-gradient(180deg,#f7fbff,#ffffff);border:1px solid var(--line);border-radius:18px;padding:12px;
+      height:180px;width:100%;
+      position:relative;
+    }
+    .bars{
+      display:flex;align-items:flex-end;justify-content:space-between;height:150px;gap:8px;padding-top:10px;
+    }
+    .bar-wrap{flex:1;display:flex;align-items:flex-end;justify-content:center;height:100%;}
+    .bar{
+      width:100%;max-width:28px;border-radius:10px 10px 0 0;background:linear-gradient(180deg,#88d0d8,#3a8f91);
+      min-height:20px;
+    }
+    .bar-label{
+      position:absolute;left:12px;right:12px;bottom:8px;display:flex;justify-content:space-between;font-size:11px;color:var(--muted);
+    }
+
+    .empty-state{
+      border:1px dashed var(--line);background:#fafbfd;color:var(--muted);padding:18px;border-radius:16px;text-align:center;
+    }
+
+    .dos{
+      display:inline-flex;align-items:center;justify-content:center;padding:10px 11px;background:var(--teal-900);color:#fff;border-radius:12px;font-weight:800;
+    }
+
+    @media (max-width: 980px){
+      .content-grid{grid-template-columns:1fr 1fr}
+      .content-grid .panel:nth-child(1){grid-column:1/-1}
+    }
+    @media (max-width: 760px){
+      .hero-shell{grid-template-columns:1fr}
+      .feature-grid{grid-template-columns:1fr}
+      .role-grid{grid-template-columns:1fr}
+      .content-grid{grid-template-columns:1fr}
+      .field-row{grid-template-columns:1fr}
+      .memory-grid,.care-grid,.privacy-grid,.garden-grid{grid-template-columns:1fr}
+      .top-summary{align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <div id="landingPage">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="brand-mark">❤</div>
+          <div class="brand-text">
+            <small>ElderCare 360</small>
+            <strong>Companion Care</strong>
+          </div>
+        </div>
+        <div class="role-picker">
+          <span class="role-pill">Demo mode</span>
+          <select class="select-mini" id="landingRole">
+            <option value="elder">Elderly User</option>
+            <option value="caregiver">Caregiver</option>
+            <option value="demo">Administrator / Demo Mode</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container">
+        <div class="hero-shell">
+          <div class="hero-copy">
+            <div class="chip">Trusted daily companionship</div>
+            <h1>A calmer, safer rhythm for everyday life.</h1>
+            <p class="subtitle">
+              ElderCare 360 brings routines, medication support, emotional care, and family connection into one accessible, respectful experience.
+            </p>
+
+            <div class="cta-row">
+              <button class="btn btn-primary" id="startBtn">Get Started</button>
+              <button class="btn btn-secondary" id="exploreBtn">Explore Demo</button>
+              <button class="btn btn-secondary" id="howBtn">How It Works</button>
+            </div>
+
+            <div class="mini-note">
+              <span class="dot"></span>
+              <span>Privacy-first, gentle reminders, and support when it is needed.</span>
+            </div>
+          </div>
+
+          <div class="hero-card-wrap">
+            <div class="hero-card">
+              <div class="mini-header">
+                <div class="left">
+                  <div class="tiny-icon">⌂</div>
+                  <div>
+                    <div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)">My Space</div>
+                    <div style="font-weight:800">Today</div>
+                  </div>
+                </div>
+                <span class="badge-good">All good</span>
+              </div>
+
+              <div class="summary-stack">
+                <div class="summary-row">
+                  <div class="summary-meta">
+                    <div class="icon">⏰</div>
+                    <div class="text">
+                      <strong>Morning check-in</strong>
+                      <span>Recorded 8:15 AM</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="summary-row">
+                  <div class="summary-meta">
+                    <div class="icon">💊</div>
+                    <div class="text">
+                      <strong>Medication</strong>
+                      <span>2 of 3 doses confirmed</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="summary-row">
+                  <div class="summary-meta">
+                    <div class="icon">🌼</div>
+                    <div class="text">
+                      <strong>Living Garden</strong>
+                      <span>3 activities completed</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="summary-row">
+                  <div class="summary-meta">
+                    <div class="icon">👨‍👩‍👧</div>
+                    <div class="text">
+                      <strong>Family check-in</strong>
+                      <span>Call scheduled at 4:00 PM</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon teal">⏱️</div>
+            <h3>Life Rhythm Guardian</h3>
+            <p>Transparent check-ins explain when routine support is due and when caregiver follow-up may be helpful.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon sky">📖</div>
+            <h3>Memory Lane</h3>
+            <p>Warm family moments, photos, and memories designed to support emotional well-being and connection.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon coral">🔒</div>
+            <h3>Private & Safe</h3>
+            <p>Clearly labeled demo mode, role-based access, and a privacy-first experience for daily living support.</p>
+          </div>
+        </div>
+
+        <div class="role-section" id="howItWorks">
+          <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#d7f4ef;font-weight:800;">Role access</div>
+          <h2 style="margin:10px 0 0;font-size:clamp(1.8rem,3vw,2.6rem)">Choose your demo experience</h2>
+
+          <div class="role-grid">
+            <button class="role-option active" type="button" data-role="elder">
+              <h4>Elderly User</h4>
+              <p>Personal dashboard, wellness checks, and daily support.</p>
+            </button>
+            <button class="role-option" type="button" data-role="caregiver">
+              <h4>Caregiver</h4>
+              <p>Follow-up actions, shared updates, and reminder review.</p>
+            </button>
+            <button class="role-option" type="button" data-role="demo">
+              <h4>Administrator / Demo Mode</h4>
+              <p>Full system overview with demo controls and simulated safety flows.</p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="appShell" class="hidden">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="brand-mark">❤</div>
+          <div class="brand-text">
+            <small>ElderCare 360</small>
+            <strong>Companion Care</strong>
+          </div>
+        </div>
+
+        <div class="role-picker">
+          <span class="role-pill" id="currentRoleLabel">Elderly User</span>
+          <select class="select-mini" id="roleSelect">
+            <option value="elder">Elderly User</option>
+            <option value="caregiver">Caregiver</option>
+            <option value="demo">Administrator / Demo Mode</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="nav-tabs">
+        <div class="container" id="navTabs"></div>
+      </div>
+    </header>
+
+    <div class="main">
+      <div class="top-summary">
+        <div class="welcome">
+          <h2 id="greeting">Good morning, Sam</h2>
+          <p id="todayDate"></p>
+        </div>
+        <div class="dash-actions">
+          <button id="modeToggle" class="mode-switch" type="button">Switch to Full Mode</button>
+          <button id="sosBtn" class="small-btn alert" type="button">SOS</button>
+        </div>
+      </div>
+
+      <div id="tabContent"></div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "eldercare360-demo-v1";
+    const navConfig = [
+      { key: "overview", label: "Overview" },
+      { key: "myday", label: "My Day" },
+      { key: "medicine", label: "Medicine" },
+      { key: "health", label: "Health" },
+      { key: "memories", label: "Memories" },
+      { key: "garden", label: "Garden" },
+      { key: "caregiver", label: "Caregiver" },
+      { key: "mood", label: "Mood" },
+      { key: "privacy", label: "Privacy" }
+    ];
+
+    const defaultState = {
+      role: "elder",
+      mode: "simple",
+      activeTab: "overview",
+      started: false,
+      tasks: [
+        { id: 1, title: "Morning check-in", time: "08:00", category: "Routine", done: true },
+        { id: 2, title: "Hydration reminder", time: "09:30", category: "Health", done: false },
+        { id: 3, title: "Short walk outdoors", time: "11:00", category: "Movement", done: false },
+        { id: 4, title: "Family call", time: "16:00", category: "Connection", done: false }
+      ],
+      medicines: [
+        { id: 1, name: "Vitamin D3", dosage: "1000 IU", time: "08:00", notes: "Take with breakfast.", status: "taken" },
+        { id: 2, name: "Blood Pressure Medication", dosage: "10 mg", time: "12:30", notes: "After lunch.", status: "pending" },
+        { id: 3, name: "Calcium", dosage: "500 mg", time: "20:00", notes: "With evening water.", status: "scheduled" }
+      ],
+      health: [
+        { id: 1, date: "2026-10-24", bp: "122/78", sugar: "96 mg/dL", weight: "68.5 kg", sleep: "7.5 hrs", water: "1.8 L", exercise: "20 min walk", note: "Felt steady and comfortable." },
+        { id: 2, date: "2026-10-20", bp: "124/80", sugar: "102 mg/dL", weight: "68.7 kg", sleep: "7 hrs", water: "1.7 L", exercise: "15 min mobility routine", note: "Slept well and hydrated regularly." },
+        { id: 3, date: "2026-10-16", bp: "126/82", sugar: "99 mg/dL", weight: "69.0 kg", sleep: "6.8 hrs", water: "1.9 L", exercise: "25 min gentle stretch", note: "Mild fatigue, but recovered after rest." }
+      ],
+      memories: [
+        { id: 1, title: "Garden Morning", caption: "We planted tulips together and laughed through the morning light.", date: "May 2025", type: "photo" },
+        { id: 2, title: "Family Story", caption: "Grandma's recipe for apple pie and the stories behind every ingredient.", date: "April 2025", type: "story" },
+        { id: 3, title: "Sunday Call", caption: "A warm call with the family after a long walk in the park.", date: "March 2025", type: "voice" }
+      ],
+      alerts: [
+        { id: 1, title: "Morning check-in missed", message: "Your morning check-in has not been recorded yet. Would you like to check in now or request support?", created: "Today, 09:15", reviewed: false, action: "Remind Me Later" },
+        { id: 2, title: "Lunch reminder due", message: "Your midday routine has not been completed within the planned window.", created: "Today, 12:05", reviewed: false, action: "I’m Doing Well" }
+      ],
+      caregiverNotes: [
+        { id: 1, caregiver: "Alicia", note: "Discussed follow-up plan and reminder timing.", status: "Reviewed", time: "Today, 11:40" },
+        { id: 2, caregiver: "Kevin", note: "Requested a check-in before the evening family call.", status: "Pending", time: "Today, 15:25" }
+      ],
+      mood: [
+        { id: 1, mood: "Content", note: "Feeling steady and hopeful today.", date: "2026-10-24" },
+        { id: 2, mood: "Calm", note: "Morning was quiet and restorative.", date: "2026-10-22" },
+        { id: 3, mood: "Happy", note: "Spent time with family and enjoyed music.", date: "2026-10-20" }
+      ],
+      garden: [
+        { id: 1, name: "Drink water", icon: "💧", done: true },
+        { id: 2, name: "Walk for 20 minutes", icon: "🚶", done: false },
+        { id: 3, name: "Breathing exercise", icon: "🌬️", done: true },
+        { id: 4, name: "Call family", icon: "📞", done: false }
+      ],
+      appointments: [
+        { id: 1, title: "Primary Care Review", doctor: "Dr. P. Shah", date: "2026-10-30", time: "10:15 AM" },
+        { id: 2, title: "Physiotherapy Follow-up", doctor: "Dr. N. James", date: "2026-11-02", time: "2:00 PM" }
+      ],
+      sosStatus: "Not Sent"
+    };
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (!saved) return clone(defaultState);
+        return { ...clone(defaultState), ...saved };
+      } catch {
+        return clone(defaultState);
+      }
+    }
+
+    function clone(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    let state = loadState();
+
+    const landingPage = document.getElementById("landingPage");
+    const appShell = document.getElementById("appShell");
+    const tabContent = document.getElementById("tabContent");
+    const navTabs = document.getElementById("navTabs");
+    const currentRoleLabel = document.getElementById("currentRoleLabel");
+    const roleSelect = document.getElementById("roleSelect");
+    const modeToggle = document.getElementById("modeToggle");
+    const greeting = document.getElementById("greeting");
+    const todayDate = document.getElementById("todayDate");
+
+    function updateRoleLabel() {
+      const label = state.role === "elder" ? "Elderly User" : state.role === "caregiver" ? "Caregiver" : "Administrator / Demo Mode";
+      currentRoleLabel.textContent = label;
+      roleSelect.value = state.role;
+      const roleEls = document.querySelectorAll(".role-option");
+      roleEls.forEach(el => {
+        const active = el.dataset.role === state.role;
+        el.classList.toggle("active", active);
+      });
+    }
+
+    function renderNavTabs() {
+      navTabs.innerHTML = navConfig.map(item => `
+        <button class="nav-tab ${state.activeTab === item.key ? "active" : ""}" data-tab="${item.key}" type="button">
+          ${item.label}
+        </button>
+      `).join("");
+    }
+
+    function renderHeaderMeta() {
+      const now = new Date();
+      const formatted = now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+      greeting.textContent = state.role === "caregiver" ? "Good morning, Alicia" : "Good morning, Sam";
+      todayDate.textContent = formatted;
+      modeToggle.textContent = state.mode === "simple" ? "Switch to Full Mode" : "Switch to Simple Mode";
+      updateRoleLabel();
+      renderNavTabs();
+    }
+
+    function renderOverview() {
+      const nextTask = state.tasks.find(task => !task.done) || state.tasks[0];
+      const taken = state.medicines.filter(m => m.status === "taken").length;
+      const gardenDone = state.garden.filter(item => item.done).length;
+
+      const template = `
+        <div class="content-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Daily rhythm</div>
+                <h3>My Day, My Way</h3>
+              </div>
+              <span class="tag">${state.mode === "simple" ? "Simple mode" : "Full mode"}</span>
+            </div>
+
+            ${state.mode === "simple" ? `
+              <div class="alert-box">
+                <h4>Next up</h4>
+                <p>${nextTask ? `${nextTask.title} · ${nextTask.time}` : "No tasks scheduled today."}</p>
+              </div>
+
+              <div class="task-list">
+                ${state.tasks.slice(0,3).map(task => `
+                  <div class="task-item ${task.done ? "done" : ""}">
+                    <div class="task-main">
+                      <div class="check">${task.done ? "✓" : ""}</div>
+                      <div>
+                        <div class="task-title">${task.title}</div>
+                        <div class="task-meta">${task.time}</div>
+                      </div>
+                    </div>
+                    <button class="mini-close" data-toggle-task="${task.id}" type="button">×</button>
+                  </div>
+                `).join("")}
+              </div>
+            ` : `
+              <div class="task-list">
+                ${state.tasks.map(task => `
+                  <div class="task-item ${task.done ? "done" : ""}">
+                    <div class="task-main">
+                      <div class="check">${task.done ? "✓" : ""}</div>
+                      <div>
+                        <div class="task-title">${task.title}</div>
+                        <div class="task-meta">${task.category} • ${task.time}</div>
+                      </div>
+                    </div>
+                    <button class="mini-close" data-delete-task="${task.id}" type="button">×</button>
+                  </div>
+                `).join("")}
+              </div>
+            `}
+
+            <div class="quick-add">
+              <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px">Quick add</div>
+              <div class="field-row">
+                <input class="input" id="taskTitleInput" type="text" placeholder="Add task" />
+                <input class="input" id="taskTimeInput" type="time" value="09:00" />
+                <select id="taskCategoryInput">
+                  <option>Routine</option>
+                  <option>Movement</option>
+                  <option>Health</option>
+                  <option>Connection</option>
+                </select>
+              </div>
+              <div style="margin-top:12px">
+                <button class="btn btn-primary" id="addQuickTaskBtn" type="button">Add task</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Medication</div>
+                <h3>Today</h3>
+              </div>
+              <span class="tag">${taken}/${state.medicines.length} confirmed</span>
+            </div>
+
+            <div class="med-list">
+              ${state.medicines.slice(0,3).map(med => `
+                <div class="med-item">
+                  <div class="med-top">
+                    <div>
+                      <div class="med-name">${med.name}</div>
+                      <div class="med-meta">${med.dosage} • ${med.time}</div>
+                    </div>
+                    <button class="mini-action confirm" type="button" data-confirm-med="${med.id}">Confirm</button>
+                  </div>
+                  <div style="margin-top:8px">
+                    <span class="status ${med.status === 'taken' ? 'taken' : med.status === 'pending' ? 'pending' : med.status === 'overdue' ? 'overdue' : ''}">
+                      ${med.status === 'taken' ? 'Taken — User Confirmed' : med.status === 'pending' ? 'Unconfirmed' : med.status === 'overdue' ? 'Overdue — Confirmation Needed' : 'Scheduled'}
+                    </span>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Support</div>
+                <h3>Quick help</h3>
+              </div>
+            </div>
+
+            <div class="metric-row">
+              <div class="metric"><strong>${gardenDone}</strong><span>Garden</span></div>
+              <div class="metric"><strong>${state.alerts.filter(a => !a.reviewed).length}</strong><span>Alerts</span></div>
+              <div class="metric"><strong>${state.appointments.length}</strong><span>Visits</span></div>
+            </div>
+
+            <div class="alert-box">
+              <h4>Routine Guardian</h4>
+              <p>Your morning check-in has not been recorded yet. Would you like to check in now, request assistance, or let someone know your plans have changed?</p>
+              <div class="chip-row">
+                ${["I'm Doing Well","I Need Assistance","My Plans Have Changed","Remind Me Later"].map(label => `<button class="chip-btn" type="button">${label}</button>`).join("")}
+              </div>
+            </div>
+
+            <div style="margin-top:14px">
+              <button class="small-btn alert" type="button" id="sosBtn2" style="width:100%">SOS</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      tabContent.innerHTML = template;
+
+      document.getElementById("addQuickTaskBtn").onclick = () => {
+        const title = document.getElementById("taskTitleInput").value.trim();
+        if (!title) return;
+        state.tasks.unshift({
+          id: Date.now(),
+          title,
+          time: document.getElementById("taskTimeInput").value || "09:00",
+          category: document.getElementById("taskCategoryInput").value,
+          done: false
+        });
+        saveState();
+        renderApp();
+      };
+
+      document.querySelectorAll("[data-toggle-task]").forEach(btn => {
+        btn.onclick = () => {
+          const id = Number(btn.getAttribute("data-toggle-task"));
+          state.tasks = state.tasks.map(task => task.id === id ? { ...task, done: !task.done } : task);
+          saveState();
+          renderApp();
+        };
+      });
+
+      document.querySelectorAll("[data-delete-task]").forEach(btn => {
+        btn.onclick = () => {
+          const id = Number(btn.getAttribute("data-delete-task"));
+          state.tasks = state.tasks.filter(task => task.id !== id);
+          saveState();
+          renderApp();
+        };
+      });
+
+      document.querySelectorAll("[data-confirm-med]").forEach(btn => {
+        btn.onclick = () => {
+          const id = Number(btn.getAttribute("data-confirm-med"));
+          state.medicines = state.medicines.map(med => med.id === id ? { ...med, status: "taken" } : med);
+          saveState();
+          renderApp();
+        };
+      });
+
+      document.getElementById("sosBtn2").onclick = () => {
+        state.sosStatus = "Initiated";
+        state.alerts.unshift({
+          id: Date.now(),
+          title: "SOS action started",
+          message: "This is a demonstration only. In a live configuration, a configured support channel would be used.",
+          created: "Just now",
+          reviewed: false,
+          action: "I Need Assistance"
+        });
+        saveState();
+        renderApp();
+      };
+    }
+
+    function renderMyDay() {
+      const template = `
+        <div class="content-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">My Day</div>
+                <h3>Daily timeline</h3>
+              </div>
+              <span class="tag">${state.tasks.find(task => !task.done) ? "Next: " + (state.tasks.find(task => !task.done).title) : "Complete"}</span>
+            </div>
+
+            <div class="timeline">
+              ${state.tasks.map(task => `
+                <div class="row">
+                  <div class="left">
+                    <div class="check" style="width:18px;height:18px;">${task.done ? "✓" : ""}</div>
+                    <div>
+                      <div style="font-weight:800">${task.title}</div>
+                      <div style="font-size:12px;color:var(--muted);margin-top:4px">${task.category}</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span class="time-label">${task.time}</span>
+                    <button class="mini-close" data-toggle-task="${task.id}" type="button">×</button>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Add activity</div>
+                <h3>Custom plan</h3>
+              </div>
+            </div>
+
+            <div class="quick-add" style="margin-top:0;border-top:none;padding-top:0">
+              <div class="field-row" style="grid-template-columns:1fr">
+                <input class="input" id="newTaskName" placeholder="Activity title" />
+                <input class="input" id="newTaskTime" type="time" value="10:00" />
+                <select id="newTaskCat">
+                  <option>Routine</option>
+                  <option>Movement</option>
+                  <option>Connection</option>
+                  <option>Health</option>
+                </select>
+              </div>
+              <div style="margin-top:12px">
+                <button class="btn btn-primary" type="button" id="saveTaskBtn">Add activity</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      tabContent.innerHTML = template;
+
+      document.getElementById("saveTaskBtn").onclick = () => {
+        const title = document.getElementById("newTaskName").value.trim();
+        if (!title) return;
+        state.tasks.unshift({
+          id: Date.now(),
+          title,
+          time: document.getElementById("newTaskTime").value || "10:00",
+          category: document.getElementById("newTaskCat").value,
+          done: false
+        });
+        saveState(); renderApp();
+      };
+
+      document.querySelectorAll("[data-toggle-task]").forEach(btn => {
+        btn.onclick = () => {
+          const id = Number(btn.getAttribute("data-toggle-task"));
+          state.tasks = state.tasks.map(task => task.id === id ? { ...task, done: !task.done } : task);
+          saveState(); renderApp();
+        };
+      });
+    }
+
+    function renderMedicine() {
+      const template = `
+        <div class="content-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Medicine safety circle</div>
+                <h3>Medication overview</h3>
+              </div>
+              <span class="tag">${state.medicines.filter(m => m.status === "taken").length}/${state.medicines.length} confirmed</span>
+            </div>
+            <div class="med-list">
+              ${state.medicines.map(med => `
+                <div class="med-item">
+                  <div class="med-top">
+                    <div>
+                      <div class="med-name">${med.name}</div>
+                      <div class="med-meta">${med.dosage} • ${med.time}</div>
+                      <div class="med-meta" style="margin-top:8px">${med.notes}</div>
+                    </div>
+                    <div class="med-actions">
+                      <button class="mini-action confirm" data-confirm-med="${med.id}" type="button">Confirm</button>
+                      <button class="mini-action delete" data-delete-med="${med.id}" type="button">Delete</button>
+                    </div>
+                  </div>
+                  <div style="margin-top:10px">
+                    <span class="status ${med.status === 'taken' ? 'taken' : med.status === 'pending' ? 'pending' : med.status === 'overdue' ? 'overdue' : ''}">
+                      ${med.status === 'taken' ? 'Taken — User Confirmed' : med.status === 'pending' ? 'Unconfirmed' : med.status === 'overdue' ? 'Overdue — Confirmation Needed' : 'Scheduled'}
+                    </span>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Add medicine</div>
+                <h3>New medication</h3>
+              </div>
+            </div>
+
+            <div class="quick-add" style="margin-top:0;border-top:none;padding-top:0">
+              <div class="field-row" style="grid-template-columns:1fr">
+                <input class="input" id="medName" placeholder="Medicine name" />
+                <input class="input" id="medDosage" placeholder="Dosage" />
+                <input class="input" id="medTime" type="time" value="09:00" />
+                <textarea id="medNotes" rows="4" placeholder="Optional notes"></textarea>
+              </div>
+              <div style="margin-top:12px">
+                <button class="btn btn-primary" id="saveMedBtn" type="button">Save medicine</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      tabContent.innerHTML = template;
+
+      document.getElementById("saveMedBtn").onclick = () => {
+        const name = document.getElementById("medName").value.trim();
+        if (!name) return;
+        state.medicines.unshift({
+          id: Date.now(),
+          name,
+          dosage: document.getElementById("medDosage").value || "As directed",
+          time: document.getElementById("medTime").value || "09:00",
+          notes: document.getElementById("medNotes").value || "No notes",
+          status: "scheduled"
+        });
+        saveState(); renderApp();
+      };
+
+      document.querySelectorAll("[data-confirm-med]").forEach(btn => {
+        btn.onclick = () => {
+          const id = Number(btn.getAttribute("data-confirm-med"));
+          state.medicines = state.medicines.map(m => m.id === id ? { ...m, status: "taken" } : m);
+          saveState(); renderApp();
+        };
+      });
+      document.querySelectorAll("[data-delete-med]").forEach(btn => {
+        btn.onclick = () => {
+          const id = Number(btn.getAttribute("data-delete-med"));
+          state.medicines = state.medicines.filter(m => m.id !== id);
+          saveState(); renderApp();
+        };
+      });
+    }
+
+    function renderHealth() {
+      const bars = state.health.slice(0,7).map((item, idx) => {
+        const value = Number(item.bp.split("/")[0]) || 100;
+        const height = Math.max(38, (value / 150) * 100);
+        return `<div class="bar-wrap"><div class="bar" style="height:${height}%"></div></div>`;
+      }).join("");
+
+      const template = `
+        <div class="content-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Health timeline</div>
+                <h3>Personal health record</h3>
+              </div>
+            </div>
+
+            <div class="chart-box">
+              <div class="bars">${bars}</div>
+              <div class="bar-label">
+                ${state.health.slice(0,7).map(item => `<span>${new Date(item.date).toLocaleDateString("en-US",{month:"short",day:"numeric"})}</span>`).join("")}
+              </div>
+            </div>
+
+            <div class="list-stack" style="margin-top:18px">
+              ${state.health.map(item => `
+                <div class="med-item">
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+                    <div style="font-weight:800">${new Date(item.date).toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"})}</div>
+                    <button class="mini-close" data-delete-health="${item.id}" type="button">×</button>
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px;font-size:13px;color:var(--muted)">
+                    <div>BP: ${item.bp}</div>
+                    <div>Weight: ${item.weight}</div>
+                    <div>Blood sugar: ${item.sugar}</div>
+                    <div>Sleep: ${item.sleep}</div>
+                    <div>Water: ${item.water}</div>
+                    <div>Exercise: ${item.exercise}</div>
+                  </div>
+                  <div style="margin-top:10px;color:var(--muted)">${item.note}</div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Add record</div>
+                <h3>Log health</h3>
+              </div>
+            </div>
+
+            <div class="quick-add" style="margin-top:0;border-top:none;padding-top:0">
+              <div class="field-row" style="grid-template-columns:1fr">
+                <input class="input" id="bpInput" value="120/78" />
+                <input class="input" id="sugarInput" value="96 mg/dL" />
+                <input class="input" id="weightInput" value="68.5 kg" />
+                <input class="input" id="sleepInput" value="7.5 hrs" />
+                <input class="input" id="waterInput" value="1.8 L" />
+                <input class="input" id="exerciseInput" value="20 min walk" />
+                <textarea id="healthNoteInput" rows="4" placeholder="General health notes"></textarea>
+              </div>
+              <div style="margin-top:12px">
+                <button class="btn btn-primary" id="saveHealthBtn" type="button">Save entry</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      tabContent.innerHTML = template;
+      document.getElementById("saveHealthBtn").onclick = () => {
+        state.health.unshift({
+          id: Date.now(),
+          date: new Date().toISOString().slice(0,10),
+          bp: document.getElementById("bpInput").value || "120/78",
+          sugar: document.getElementById("sugarInput").value || "96 mg/dL",
+          weight: document.getElementById("weightInput").value || "68.5 kg",
+          sleep: document.getElementById("sleepInput").value || "7.5 hrs",
+          water: document.getElementById("waterInput").value || "1.8 L",
+          exercise: document.getElementById("exerciseInput").value || "20 min walk",
+          note: document.getElementById("healthNoteInput").value || "No extra notes."
+        });
+        saveState(); renderApp();
+      };
+
+      document.querySelectorAll("[data-delete-health]").forEach(btn => {
+        btn.onclick = () => {
+          const id = Number(btn.getAttribute("data-delete-health"));
+          state.health = state.health.filter(item => item.id !== id);
+          saveState(); renderApp();
+        };
+      });
+    }
+
+    function renderMemories() {
+      const template = `
+        <div class="content-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Memory Lane</div>
+                <h3>Family stories</h3>
+              </div>
+            </div>
+
+            <div class="memory-grid">
+              ${state.memories.map(item => `
+                <div class="memory-card">
+                  <div>
+                    <span class="memory-badge">${item.type}</span>
+                    <div class="memory-title">${item.title}</div>
+                    <div class="memory-body">${item.caption}</div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+                    <span class="memory-date">${item.date}</span>
+                    <button class="mini-close" data-delete-memory="${item.id}" type="button">×</button>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Add memory</div>
+                <h3>New story</h3>
+              </div>
+            </div>
+
+            <div class="quick-add" style="margin-top:0;border-top:none;padding-top:0">
+              <div class="field-row" style="grid-template-columns:1fr">
+                <input class="input" id="memoryTitle" placeholder="Memory title" />
+                <select id="memoryType">
+                  <option value="photo">Photo</option>
+                  <option value="story">Story</option>
+                  <option value="voice">Voice</option>
+                </select>
+                <textarea id="memoryNote" rows="4" placeholder="Caption or memory detail"></textarea>
+              </div>
+              <div style="margin-top:12px">
+                <button class="btn btn-primary" id="saveMemoryBtn" type="button">Save memory</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      tabContent.innerHTML = template;
+
+      document.getElementById("saveMemoryBtn").onclick = () => {
+        const title = document.getElementById("memoryTitle").value.trim();
+        const caption = document.getElementById("memoryNote").value.trim();
+        if (!title || !caption) return;
+        state.memories.unshift({
+          id: Date.now(),
+          title,
+          caption,
+          date: new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" }),
+          type: document.getElementById("memoryType").value
+        });
+        saveState(); renderApp();
+      };
+
+      document.querySelectorAll("[data-delete-memory]").forEach(btn => {
+        btn.onclick = () => {
+          const id = Number(btn.getAttribute("data-delete-memory"));
+          state.memories = state.memories.filter(m => m.id !== id);
+          saveState(); renderApp();
+        };
+      });
+    }
+
+    function renderGarden() {
+      const doneCount = state.garden.filter(item => item.done).length;
+      const template = `
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="eyebrow">Living Garden</div>
+              <h3>Gentle wellness growth</h3>
+            </div>
+            <button type="button" class="small-btn outline" id="resetGardenBtn">Reset</button>
+          </div>
+
+          <div class="content-grid">
+            <div>
+              <div style="background:linear-gradient(180deg,#edfdf4,#eff7ff);border:1px solid var(--line);border-radius:24px;padding:20px">
+                <div style="display:flex;align-items:flex-end;justify-content:center;gap:16px;margin-top:10px;min-height:180px">
+                  ${state.garden.map(item => `
+                    <button type="button" data-toggle-garden="${item.id}" class="garden-item ${item.done ? "done" : ""}" style="display:flex;flex-direction:column;align-items:center;gap:8px;border:none;background:transparent;padding:0;box-shadow:none;min-width:80px">
+                      <div style="font-size:38px">${item.icon}</div>
+                      <div style="font-size:11px;font-weight:800;color:${item.done ? "#1f8b5f" : "#5b6671"}">${item.done ? "Done" : "Do it"}</div>
+                    </button>
+                  `).join("")}
+                </div>
+                <div style="text-align:center;margin-top:18px">
+                  <span class="tag">${doneCount}/${state.garden.length} activities</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="garden-grid" style="grid-template-columns:1fr">
+              ${state.garden.map(item => `
+                <div class="garden-item ${item.done ? "done" : ""}" data-toggle-garden="${item.id}">
+                  <div class="left" style="display:flex;align-items:center;gap:12px">
+                    <div class="garden-icon">${item.icon}</div>
+                    <div class="garden-name">${item.name}</div>
+                  </div>
+                  <span class="garden-state">${item.done ? "Completed" : "Pending"}</span>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </div>
+      `;
+
+      tabContent.innerHTML = template;
+
+      document.getElementById("resetGardenBtn").onclick = () => {
+        state.garden = [
+          { id: 1, name: "Drink water", icon: "💧", done: true },
+          { id: 2, name: "Walk for 20 minutes", icon: "🚶", done: false },
+          { id: 3, name: "Breathing exercise", icon: "🌬️", done: true },
+          { id: 4, name: "Call family", icon: "📞", done: false }
+        ];
+        saveState(); renderApp();
+      };
+
+      document.querySelectorAll("[data-toggle-garden]").forEach(btn => {
+        btn.onclick = () => {
+          const id = Number(btn.getAttribute("data-toggle-garden"));
+          state.garden = state.garden.map(item => item.id === id ? { ...item, done: !item.done } : item);
+          saveState(); renderApp();
+        };
+      });
+    }
+
+    function renderCaregiver() {
+      const template = `
+        <div class="content-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Caregiver dashboard</div>
+                <h3>Follow-up overview</h3>
+              </div>
+            </div>
+
+            <div class="list-stack">
+              ${state.alerts.map(alert => `
+                <div class="care-item">
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+                    <h4>${alert.title}</h4>
+                    <span class="tag" style="background:${alert.reviewed ? 'var(--green-soft)' : 'var(--amber-soft)'};color:${alert.reviewed ? 'var(--green)' : '#8a5d1b'}">${alert.reviewed ? "Reviewed" : "Open"}</span>
+                  </div>
+                  <p>${alert.message}</p>
+                  <div style="margin-top:8px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">${alert.created}</div>
+                  <div class="chip-row">
+                    <button class="chip-btn" data-review-alert="${alert.id}" type="button">Mark reviewed</button>
+                    <button class="chip-btn" type="button">${alert.action}</button>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Caregiver notes</div>
+                <h3>Shared updates</h3>
+              </div>
+            </div>
+
+            <div class="list-stack">
+              ${state.caregiverNotes.map(note => `
+                <div class="care-item">
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+                    <h4>${note.caregiver}</h4>
+                    <span class="tag" style="background:${note.status === 'Reviewed' ? 'var(--green-soft)' : 'var(--amber-soft)'};color:${note.status === 'Reviewed' ? 'var(--green)' : '#8a5d1b'}">${note.status}</span>
+                  </div>
+                  <p>${note.note}</p>
+                  <div style="margin-top:8px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">${note.time}</div>
+                </div>
+              `).join("")}
+            </div>
+
+            <div style="margin-top:18px">
+              <textarea id="noteInput" rows="4" placeholder="Add a caregiver note..."></textarea>
+              <div style="margin-top:12px">
+                <button class="btn btn-primary" id="saveCareNoteBtn" type="button">Save note</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      tabContent.innerHTML = template;
+
+      document.querySelectorAll("[data-review-alert]").forEach(btn => {
+        btn.onclick = () => {
+          const id = Number(btn.getAttribute("data-review-alert"));
+          state.alerts = state.alerts.map(alert => alert.id === id ? { ...alert, reviewed: true } : alert);
+          saveState(); renderApp();
+        };
+      });
+
+      document.getElementById("saveCareNoteBtn").onclick = () => {
+        const note = document.getElementById("noteInput").value.trim();
+        if (!note) return;
+        state.caregiverNotes.unshift({
+          id: Date.now(),
+          caregiver: "Caregiver",
+          note,
+          status: "Pending",
+          time: "Just now"
+        });
+        saveState(); renderApp();
+      };
+    }
+
+    function renderMood() {
+      const moodOptions = ["Content","Calm","Happy","Tired","Anxious","Lonely"];
+      const template = `
+        <div class="content-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Emotional wellbeing</div>
+                <h3>Mood journal</h3>
+              </div>
+            </div>
+
+            <div class="mood-list">
+              ${state.mood.map(item => `
+                <div class="care-item">
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+                    <h4>${item.mood}</h4>
+                    <span style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">${item.date}</span>
+                  </div>
+                  <p>${item.note}</p>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Guided support</div>
+                <h3>Check in with yourself</h3>
+              </div>
+            </div>
+
+            <div class="mood-row">
+              ${moodOptions.map(mood => `
+                <button type="button" class="mood-chip ${mood === "Content" ? "active" : ""}" data-mood-choice="${mood}">${mood}</button>
+              `).join("")}
+            </div>
+
+            <div style="margin-top:18px">
+              <textarea id="moodText" rows="4" placeholder="Notes about your day..."></textarea>
+              <div style="margin-top:12px">
+                <button class="btn btn-primary" id="saveMoodBtn" type="button">Save mood</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      tabContent.innerHTML = template;
+
+      document.querySelectorAll("[data-mood-choice]").forEach(btn => {
+        btn.onclick = () => {
+          document.querySelectorAll("[data-mood-choice]").forEach(el => el.classList.remove("active"));
+          btn.classList.add("active");
+        };
+      });
+
+      document.getElementById("saveMoodBtn").onclick = () => {
+        const selected = document.querySelector(".mood-chip.active")?.getAttribute("data-mood-choice") || "Content";
+        const note = document.getElementById("moodText").value.trim();
+        if (!note) return;
+        state.mood.unshift({
+          id: Date.now(),
+          mood: selected,
+          note,
+          date: new Date().toISOString().slice(0, 10)
+        });
+        saveState(); renderApp();
+      };
+    }
+
+    function renderPrivacy() {
+      const template = `
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="eyebrow">Privacy & safety</div>
+              <h3>Plain-language information</h3>
+            </div>
+          </div>
+
+          <div class="privacy-grid">
+            <div class="privacy-item">
+              <h4>Data access</h4>
+              <p>Only the people you explicitly authorize can view selected information. A caregiver role alone does not grant access.</p>
+            </div>
+            <div class="privacy-item">
+              <h4>Caregiver sharing</h4>
+              <p>You can decide which routines, family contacts, and alerts are shared. Access can be revoked at any time.</p>
+            </div>
+            <div class="privacy-item">
+              <h4>Emergency support</h4>
+              <p>This demo clearly shows simulated alerts. Actual emergency actions depend on a configured service and explicit consent.</p>
+            </div>
+            <div class="privacy-item">
+              <h4>Health information</h4>
+              <p>ElderCare 360 supports routines and communication without diagnosing conditions or providing medical advice.</p>
+            </div>
+          </div>
+
+          <div style="margin-top:18px;border:1px solid var(--line);background:#f8fafb;border-radius:18px;padding:18px">
+            <div style="display:flex;align-items:center;gap:10px;font-weight:800">
+              <span>🔒</span>
+              <span>Your information stays protected</span>
+            </div>
+            <p style="margin-top:10px;color:var(--muted);line-height:1.7">
+              ElderCare 360 is designed to respect privacy, reduce stress, and support healthy routines without pressure. The app is a demo and does not replace medical advice or emergency service protocols.
+            </p>
+          </div>
+        </div>
+      `;
+
+      tabContent.innerHTML = template;
+    }
+
+    function renderApp() {
+      renderHeaderMeta();
+
+      const sections = {
+        overview: renderOverview,
+        myday: renderMyDay,
+        medicine: renderMedicine,
+        health: renderHealth,
+        memories: renderMemories,
+        garden: renderGarden,
+        caregiver: renderCaregiver,
+        mood: renderMood,
+        privacy: renderPrivacy
+      };
+
+      sections[state.activeTab]();
+    }
+
+    document.addEventListener("click", (event) => {
+      const tabBtn = event.target.closest("[data-tab]");
+      if (tabBtn) {
+        state.activeTab = tabBtn.dataset.tab;
+        saveState();
+        renderApp();
+      }
+
+      const roleBtn = event.target.closest(".role-option");
+      if (roleBtn) {
+        state.role = roleBtn.dataset.role;
+        saveState();
+        updateRoleLabel();
+      }
+    });
+
+    document.getElementById("roleSelect").addEventListener("change", (event) => {
+      state.role = event.target.value;
+      saveState();
+      renderApp();
+    });
+
+    document.getElementById("modeToggle").addEventListener("click", () => {
+      state.mode = state.mode === "simple" ? "full" : "simple";
+      saveState();
+      renderApp();
+    });
+
+    document.getElementById("sosBtn").addEventListener("click", () => {
+      state.sosStatus = "Initiated";
+      state.alerts.unshift({
+        id: Date.now(),
+        title: "SOS action started",
+        message: "This is a demonstration only. In a live configuration, a configured support channel would be used.",
+        created: "Just now",
+        reviewed: false,
+        action: "I Need Assistance"
+      });
+      saveState();
+      renderApp();
+    });
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+      landingPage.classList.add("hidden");
+      appShell.classList.remove("hidden");
+      state.started = true;
+      saveState();
+      renderApp();
+    });
+
+    document.getElementById("exploreBtn").addEventListener("click", () => {
+      landingPage.classList.add("hidden");
+      appShell.classList.remove("hidden");
+      state.started = true;
+      saveState();
+      renderApp();
+    });
+
+    document.getElementById("landingRole").addEventListener("change", (event) => {
+      state.role = event.target.value;
+      saveState();
+      updateRoleLabel();
+    });
+
+    document.querySelectorAll(".role-option").forEach(option => {
+      option.addEventListener("click", () => {
+        state.role = option.dataset.role;
+        saveState();
+        updateRoleLabel();
+      });
+    });
+
+    document.getElementById("howBtn").addEventListener("click", () => {
+      document.getElementById("howItWorks").scrollIntoView({ behavior: "smooth" });
+    });
+
+    if (state.started) {
+      landingPage.classList.add("hidden");
+      appShell.classList.remove("hidden");
+    } else {
+      landingPage.classList.remove("hidden");
+      appShell.classList.add("hidden");
+    }
+
+    renderApp();
+    updateRoleLabel();
+  </script>
+</body>
+</html>
