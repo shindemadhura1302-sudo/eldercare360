@@ -1,2 +1,2 @@
 # eldercare360
-in this website i have create a easy path routie for the old age people this website can make elder people lifestyle better than usaual it reminde the people to take medcien etc
+ElderCare 360 is a website designed to help old people live a healthy, safe, and happy life. It reminds them to take their medicines, attend doctor appointments, and check their health. It also helps them contact their family during emergencies. Special features like Memory Lane help them share memories with their loved ones, while Living Garden encourages them to follow healthy habits. The website is easy to use and helps elderly people take care of themselves while keeping their families connected and worry-free.
